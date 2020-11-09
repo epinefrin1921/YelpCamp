@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { number } = require('joi');
 
 const campgroundSchema = Joi.object({
     campground: Joi.object({
