@@ -5,9 +5,11 @@
         <div class="alert alert-danger" role="alert">
             <h4 class="alert-heading"><%= err.message %> </h4>
             <p>
+                <% if (process.env.NODE_ENV !== 'production') { %>
                 <%= err.stack %>
+                <% } %>
                 <hr>
-            <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+            <p class="mb-0">Go back and try to change something again.</p>
         </div>
     </div>
 </div>
