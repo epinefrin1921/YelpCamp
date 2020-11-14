@@ -19,9 +19,11 @@ const User = require('./models/user')
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require("helmet");
 const { func } = require('joi');
-const dbUrl = 'mongodb://localhost:27017/yelp-camp'
-// process.env.DB_URL;
+// const dbUrl = 'mongodb://localhost:27017/yelp-camp'
+const dbUrl = process.env.DB_URL;
 const MongoStore = require('connect-mongo')(session);
+
+const secret = process.env.secret || 'ovojeprivremeno';
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
@@ -52,7 +54,7 @@ app.use(helmet());
 
 const store = new MongoStore({
   url: dbUrl,
-  secret: 'ovojeprivremeno',
+  secret: secret,
   touchAfter: 24 * 69 * 60
 })
 
@@ -62,7 +64,7 @@ store.on("error", function (e) {
 const sessionConfig = {
   store,
   name: 'session',
-  secret: 'ovojeprivremeno',
+  secret: secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -152,6 +154,6 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render('error', { err })
 })
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log('Serving on port 3000')
 })
